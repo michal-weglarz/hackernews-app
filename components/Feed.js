@@ -6,24 +6,25 @@ import {
 	FlatList,
 	TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 export default class Feed extends React.Component {
 	static navigationOptions = {
-		title: 'Hacker news',
+		title: 'Top Stories',
 		headerStyle: {
 			backgroundColor: '#ff6600',
 		},
 		headerTitleStyle: {
-			color: '#ffffff',
+			color: '#F6F6EF',
 		},
 	};
 
 	constructor(props) {
 		super(props);
-		this.state = { isLoading: true, data: [], feed: [] };
+		this.state = { data: [], feed: [] };
 	}
 
-	componentDidMount(prevProps, prevState) {
+	componentDidMount() {
 		fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
 			.then(response => response.json())
 			.then(data =>
@@ -34,14 +35,13 @@ export default class Feed extends React.Component {
 						.then(response => response.json())
 						.then(data =>
 							this.setState({
-								isLoading: false,
 								data: [...this.state.data, data],
 							})
 						)
 				)
 			)
 			.catch(error => {
-				console.log(error);
+				console.log('Error', error);
 			});
 	}
 
@@ -52,32 +52,58 @@ export default class Feed extends React.Component {
 			<View>
 				{this.state.isLoading && <ActivityIndicator size="large" />}
 				<FlatList
-					data={this.state.data.slice(0, 20)}
+					data={this.state.data}
 					renderItem={({ item }) => (
-						<View>
+						<View
+							style={{
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+						>
 							<TouchableOpacity
 								onPress={() => {
 									navigate('WebView', { uri: item.url });
 								}}
 								style={{
 									borderBottomWidth: 1,
-									borderBottomColor: 'black',
+									borderBottomColor: '#E0E0DA',
 									flex: 1,
 									flexDirection: 'row',
 								}}
 							>
-								<View style={{ maxWidth: 350 }}>
+								<View
+									style={{
+										flex: 5,
+										padding: 12,
+									}}
+								>
 									<Text style={{ fontSize: 18 }}>{item.title}</Text>
-									<Text>by: {item.by}</Text>
-									<Text>Score: {item.score}</Text>
+									<View
+										style={{
+											flex: 1,
+											flexDirection: 'row',
+											justifyContent: 'space-between',
+										}}
+									>
+										<Text>{item.score} </Text>
+										<Text>{item.by} </Text>
+									</View>
 								</View>
-								<View>
-									<Text>{item.descendants}</Text>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+										backgroundColor: '#F9F9F4',
+									}}
+								>
+									<Icon name="comment" type="octicon" color="#FFAB73" />
+									<Text style={{ color: '#FF8738' }}>{item.descendants}</Text>
 								</View>
 							</TouchableOpacity>
 						</View>
 					)}
-					keyExtractor={(item, index) => item.id}
+					keyExtractor={(item, index) => item.id.toString()}
 				/>
 			</View>
 		);
