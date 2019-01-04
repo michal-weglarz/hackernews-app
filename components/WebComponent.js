@@ -17,7 +17,18 @@ export default class WebComponent extends React.Component {
 	}
 
 	renderLoadingView = () => {
-		return <ActivityIndicator color="#bc2b78" size="large" />;
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					flexDirection: 'row',
+					padding: 10,
+				}}
+			>
+				<ActivityIndicator color="#ff6600" size="large" />
+			</View>
+		);
 	};
 
 	render() {
