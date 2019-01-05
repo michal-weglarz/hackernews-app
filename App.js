@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Button } from 'react-native';
 import { Constants } from 'expo';
 import Feed from './components/Feed';
 import WebView from './components/WebComponent';
