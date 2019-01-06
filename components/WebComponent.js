@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { WebView, View, ActivityIndicator } from 'react-native';
 
-export default class WebComponent extends React.Component {
+export default class WebComponent extends React.PureComponent {
 	static navigationOptions = {
-		title: 'Hacker news',
+		title: 'Article',
 		headerStyle: {
 			backgroundColor: '#ff6600',
 		},
@@ -11,10 +11,6 @@ export default class WebComponent extends React.Component {
 			color: '#ffffff',
 		},
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	renderLoadingView = () => {
 		return (
