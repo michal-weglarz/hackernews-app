@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
 export default class ListItem extends React.PureComponent {
 	render() {
-		const { item, navigate, time, url } = this.props;
+		const { item, navigate, time, cleanUrl } = this.props;
 
 		return (
 			<View
@@ -49,7 +49,7 @@ export default class ListItem extends React.PureComponent {
 							<Text style={styles.sideText}>{time}</Text>
 						</View>
 						<Text style={styles.sideText} numberOfLines={1}>
-							{url(item.url)}
+							{cleanUrl(item.url)}
 						</Text>
 					</View>
 				</TouchableOpacity>

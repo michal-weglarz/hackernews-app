@@ -21,7 +21,14 @@ export default class List extends React.PureComponent {
 	};
 
 	render() {
-		const { data, navigate, isFetching, onRefresh, time, url } = this.props;
+		const {
+			data,
+			navigate,
+			isFetching,
+			onRefresh,
+			time,
+			cleanUrl,
+		} = this.props;
 		return (
 			<FlatList
 				data={data}
@@ -30,7 +37,7 @@ export default class List extends React.PureComponent {
 						item={item}
 						navigate={navigate}
 						time={time(item.time)}
-						url={url}
+						cleanUrl={cleanUrl}
 					/>
 				)}
 				keyExtractor={(item, index) => item.id.toString()}
