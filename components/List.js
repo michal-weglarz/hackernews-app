@@ -21,12 +21,17 @@ export default class List extends React.PureComponent {
 	};
 
 	render() {
-		const { data, navigate, isFetching, onRefresh, time } = this.props;
+		const { data, navigate, isFetching, onRefresh, time, url } = this.props;
 		return (
 			<FlatList
 				data={data}
 				renderItem={({ item }) => (
-					<ListItem item={item} navigate={navigate} time={time(item.time)} />
+					<ListItem
+						item={item}
+						navigate={navigate}
+						time={time(item.time)}
+						url={url}
+					/>
 				)}
 				keyExtractor={(item, index) => item.id.toString()}
 				ItemSeparatorComponent={this.renderSeparator}

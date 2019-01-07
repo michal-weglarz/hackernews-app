@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
 export default class ListItem extends React.PureComponent {
 	render() {
-		const { item, navigate, time } = this.props;
+		const { item, navigate, time, url } = this.props;
 
 		return (
 			<View
@@ -49,7 +49,7 @@ export default class ListItem extends React.PureComponent {
 							<Text style={styles.sideText}>{time}</Text>
 						</View>
 						<Text style={styles.sideText} numberOfLines={1}>
-							{item.url}
+							{url(item.url)}
 						</Text>
 					</View>
 				</TouchableOpacity>
@@ -61,7 +61,6 @@ export default class ListItem extends React.PureComponent {
 						backgroundColor: '#F9F9F4',
 					}}
 					onPress={() => {
-						console.log(item.kids);
 						navigate('Comments', { kids: item.kids });
 					}}
 				>

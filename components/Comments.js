@@ -6,6 +6,7 @@ import {
 	Dimensions,
 	ScrollView,
 	Text,
+	ActivityIndicator,
 } from 'react-native';
 import HTML from 'react-native-render-html';
 
@@ -28,42 +29,63 @@ export default class Comments extends React.Component {
 	}
 
 	componentDidMount = () => {
-		this.props.navigation.state.params.kids.forEach(itemID => {
-			this.fetchComment(itemID);
-		});
+		this.props.navigation.state.params.kids &&
+			this.props.navigation.state.params.kids.forEach(itemID => {
+				this.fetchComment(itemID);
+			});
 	};
-
-	// componentWillUnmount() {
-	// 	this.setState({
-	// 		comments: [],
-	// 	});
-	// }
 
 	fetchComment = itemID => {
 		fetch(
-			` https://hacker-news.firebaseio.com/v0/item/${itemID}.json?print=pretty`
+			`https://hacker-news.firebaseio.com/v0/item/${itemID}.json?print=pretty`
 		)
+			.then(response => response.json())
 			.then(response => {
-				return response.json();
-			})
-			.then(response =>
 				this.setState({
 					comments: [...this.state.comments, response],
-				})
-			)
+				});
+			})
 			.catch(err => console.log(err));
 	};
 
-	render() {
-		console.log(this.state.comments);
+	renderFooter = () => {
 		return (
-			<ScrollView style={{ flex: 1 }}>
-				<FlatList
-					data={this.state.comments}
-					renderItem={({ item }) => <HTML html={item.text} />}
-					keyExtractor={item => item.id.toString()}
-				/>
-			</ScrollView>
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					flexDirection: 'row',
+					paddingVertical: 40,
+				}}
+			>
+				<ActivityIndicator color="#ff6600" size="large" />
+			</View>
+		);
+	};
+
+	renderSeparator = () => (
+		<View style={{ borderBottomColor: '#E0E0DA', borderBottomWidth: 1 }} />
+	);
+
+	reachedEnd = () => {
+		return (
+			<View>
+				<Text>End of thread</Text>
+			</View>
+		);
+	};
+
+	render() {
+		return (
+			<FlatList
+				data={this.state.comments}
+				renderItem={({ item }) => <HTML html={item.text} />}
+				keyExtractor={item => item.id.toString()}
+				ItemSeparatorComponent={this.renderSeparator}
+				onEndReached={this.reachedEnd}
+				onEndReachedThreshold={0.5}
+				ListFooterComponent={this.renderFooter}
+			/>
 		);
 	}
 }

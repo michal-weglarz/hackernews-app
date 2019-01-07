@@ -62,6 +62,10 @@ export default class Feed extends React.Component {
 		return humanReadableTime;
 	};
 
+	getCleanedUrl = url => {
+		if (url) return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
+	};
+
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
@@ -71,6 +75,7 @@ export default class Feed extends React.Component {
 				isFetching={this.state.isFetching}
 				onRefresh={this.onRefresh}
 				time={this.timeOfCreation}
+				url={this.getCleanedUrl}
 			/>
 		);
 	}
