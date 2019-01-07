@@ -1,14 +1,6 @@
 import * as React from 'react';
-import {
-	View,
-	Text,
-	ActivityIndicator,
-	FlatList,
-	TouchableOpacity,
-	StyleSheet,
-} from 'react-native';
 
-import ListItem from './ListItem';
+import List from './List';
 
 export default class Feed extends React.Component {
 	static navigationOptions = {
@@ -52,22 +44,6 @@ export default class Feed extends React.Component {
 			});
 	};
 
-	renderSeparator = () => (
-		<View style={{ borderBottomColor: '#E0E0DA', borderBottomWidth: 1 }} />
-	);
-
-	renderFooter = () => {
-		return (
-			<View
-				style={{
-					paddingVertical: 30,
-				}}
-			>
-				<ActivityIndicator animating color="#ff6600" size="large" />
-			</View>
-		);
-	};
-
 	onRefresh = () => {
 		this.setState({ isFetching: true }, () => this.fetchData());
 	};
@@ -89,23 +65,12 @@ export default class Feed extends React.Component {
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<FlatList
+			<List
 				data={this.state.data}
-				renderItem={({ item }) => (
-					<ListItem
-						item={item}
-						navigate={navigate}
-						time={this.timeOfCreation(item.time)}
-					/>
-				)}
-				keyExtractor={(item, index) => index.toString()}
-				ItemSeparatorComponent={this.renderSeparator}
-				ListFooterComponent={this.renderFooter}
-				onRefresh={() => this.onRefresh()}
-				refreshing={this.state.isFetching}
-				initialNumToRender={10}
-				maxToRenderPerBatch={5}
-				windowSize={2}
+				navigate={navigate}
+				isFetching={this.state.isFetching}
+				onRefresh={this.onRefresh}
+				time={this.timeOfCreation}
 			/>
 		);
 	}

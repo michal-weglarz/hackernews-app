@@ -1,8 +1,10 @@
 import React from 'react';
 import { AppRegistry, StyleSheet, Text, View, Button } from 'react-native';
 import { Constants } from 'expo';
+
 import Feed from './components/Feed';
 import WebView from './components/WebComponent';
+import Comments from './components/Comments';
 
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
@@ -32,6 +34,12 @@ const RootStack = createStackNavigator({
 	},
 	WebView: {
 		screen: WebView,
+		navigationOptions: {
+			headerTintColor: '#ffffff',
+		},
+	},
+	Comments: {
+		screen: Comments,
 		navigationOptions: {
 			headerTintColor: '#ffffff',
 		},

@@ -60,6 +60,10 @@ export default class ListItem extends React.PureComponent {
 						justifyContent: 'center',
 						backgroundColor: '#F9F9F4',
 					}}
+					onPress={() => {
+						console.log(item.kids);
+						navigate('Comments', { kids: item.kids });
+					}}
 				>
 					<Icon name="comment-o" type="font-awesome" color="#FFAB73" />
 					<Text style={{ color: '#FF8738', marginTop: 6 }}>

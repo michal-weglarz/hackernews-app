@@ -32,6 +32,9 @@ export default class WebComponent extends React.PureComponent {
 				source={{ uri: this.props.navigation.state.params.uri }}
 				renderLoading={this.renderLoadingView}
 				startInLoadingState={true}
+				automaticallyAdjustContentInsets={true}
+				domStorageEnabled={true}
+				onError={() => <Text>Failed to load</Text>}
 			/>
 		);
 	}
