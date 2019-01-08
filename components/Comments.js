@@ -8,6 +8,7 @@ import {
 	Text,
 	ActivityIndicator,
 } from 'react-native';
+import Comment from './Comment';
 import HTML from 'react-native-render-html';
 
 export default class Comments extends React.Component {
@@ -25,30 +26,26 @@ export default class Comments extends React.Component {
 		super(props);
 		this.state = {
 			comments: [],
+			isLoading: true,
 		};
 	}
 
 	componentDidMount = () => {
-		this.props.navigation.state.params.kids &&
-			this.props.navigation.state.params.kids.forEach(itemID => {
-				this.fetchComment(itemID);
-			});
+		this.fetchComment(this.props.navigation.state.params.itemID);
 	};
 
-	fetchComment = itemID => {
-		fetch(
-			`https://hacker-news.firebaseio.com/v0/item/${itemID}.json?print=pretty`
-		)
-			.then(response => response.json())
-			.then(response => {
-				this.setState({
-					comments: [...this.state.comments, response],
-				});
-			})
-			.catch(err => console.log(err));
+	fetchComment = async itemID => {
+		let response = await fetch(`https://api.hnpwa.com/v0/item/${itemID}.json`);
+		let data = await response.json();
+
+		this.setState({
+			comments: data.comments,
+			isLoading: false,
+		});
 	};
 
 	renderFooter = () => {
+		if (!this.state.isLoading) return null;
 		return (
 			<View
 				style={{
@@ -68,24 +65,50 @@ export default class Comments extends React.Component {
 	);
 
 	reachedEnd = () => {
-		return (
-			<View>
-				<Text>End of thread</Text>
-			</View>
-		);
+		this.setState({
+			isLoading: false,
+		});
 	};
 
 	render() {
+		console.log(this.state.comments);
 		return (
+			<View>
+				{this.state.comments && <RenderComments data={this.state.comments} />}
+			</View>
+		);
+	}
+}
+
+const RenderComments = ({ data }) => {
+	return (
+		<View style={{ padding: 5 }}>
 			<FlatList
-				data={this.state.comments}
-				renderItem={({ item }) => <HTML html={item.text} />}
-				keyExtractor={item => item.id.toString()}
+				data={data}
+				renderItem={({ item }) => (
+					<View
+						style={{
+							paddingLeft: 20,
+							borderLeftWidth: 1,
+							borderColor: '#E0E0DA',
+						}}
+					>
+						<View>
+							<Text style={{ color: '#ff6600' }}>{item.user} </Text>
+							<Text style={{ color: '#E0E0DA' }}>- {item.time_ago}</Text>
+						</View>
+						<View>
+							<HTML html={item.content} />
+						</View>
+						{item.comments && <RenderComments data={item.comments} />}
+					</View>
+				)}
+				keyExtractor={(item, index) => item.id.toString()}
 				ItemSeparatorComponent={this.renderSeparator}
 				onEndReached={this.reachedEnd}
 				onEndReachedThreshold={0.5}
 				ListFooterComponent={this.renderFooter}
 			/>
-		);
-	}
-}
+		</View>
+	);
+};

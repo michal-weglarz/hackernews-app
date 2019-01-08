@@ -33,12 +33,7 @@ export default class List extends React.PureComponent {
 			<FlatList
 				data={data}
 				renderItem={({ item }) => (
-					<ListItem
-						item={item}
-						navigate={navigate}
-						time={time(item.time)}
-						cleanUrl={cleanUrl}
-					/>
+					<ListItem item={item} navigate={navigate} cleanUrl={cleanUrl} />
 				)}
 				keyExtractor={(item, index) => item.id.toString()}
 				ItemSeparatorComponent={this.renderSeparator}

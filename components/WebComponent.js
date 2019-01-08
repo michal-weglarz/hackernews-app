@@ -27,9 +27,17 @@ export default class WebComponent extends React.PureComponent {
 	};
 
 	render() {
+		const address =
+			this.props.navigation.state.params.uri ||
+			`https://news.ycombinator.com/item?id=${
+				this.props.navigation.state.params.id
+			}`;
+		console.log(address);
 		return (
 			<WebView
-				source={{ uri: this.props.navigation.state.params.uri }}
+				source={{
+					uri: address,
+				}}
 				renderLoading={this.renderLoadingView}
 				startInLoadingState={true}
 				automaticallyAdjustContentInsets={true}

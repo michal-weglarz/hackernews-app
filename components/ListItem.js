@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
 export default class ListItem extends React.PureComponent {
 	render() {
-		const { item, navigate, time, cleanUrl } = this.props;
+		const { item, navigate, cleanUrl } = this.props;
 
 		return (
 			<View
@@ -20,7 +20,7 @@ export default class ListItem extends React.PureComponent {
 				<TouchableOpacity
 					style={{ flex: 5 }}
 					onPress={() => {
-						navigate('WebView', { uri: item.url });
+						navigate('WebView', { uri: item.url, id: item.id });
 					}}
 				>
 					<View
@@ -43,10 +43,10 @@ export default class ListItem extends React.PureComponent {
 									borderRadius: 4,
 								}}
 							>
-								{item.score}
+								{item.points}
 							</Text>
-							<Text style={styles.sideText}>{item.by}</Text>
-							<Text style={styles.sideText}>{time}</Text>
+							<Text style={styles.sideText}>{item.user}</Text>
+							<Text style={styles.sideText}>{item.time_ago}</Text>
 						</View>
 						<Text style={styles.sideText} numberOfLines={1}>
 							{cleanUrl(item.url)}
@@ -61,12 +61,13 @@ export default class ListItem extends React.PureComponent {
 						backgroundColor: '#F9F9F4',
 					}}
 					onPress={() => {
-						navigate('Comments', { kids: item.kids });
+						navigate('Comments', { itemID: item.id });
 					}}
 				>
 					<Icon name="comment-o" type="font-awesome" color="#FFAB73" />
 					<Text style={{ color: '#FF8738', marginTop: 6 }}>
-						{item.descendants}
+						{item.id}
+						{item.comments_count}
 					</Text>
 				</TouchableOpacity>
 			</View>

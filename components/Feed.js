@@ -15,52 +15,40 @@ export default class Feed extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { isFetching: false, data: [] };
+		this.state = { isFetching: false, data: [], page: 1 };
 	}
 
 	componentDidMount = () => {
 		this.fetchData();
 	};
 
-	fetchData = () => {
-		fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
-			.then(response => response.json())
-			.then(data =>
-				data.map(itemID =>
-					fetch(
-						`https://hacker-news.firebaseio.com/v0/item/${itemID}.json?print=pretty`
-					)
-						.then(response => response.json())
-						.then(data =>
-							this.setState({
-								data: [...this.state.data, data],
-								isFetching: false,
-							})
-						)
-				)
-			)
-			.catch(error => {
-				console.log('Error', error);
-			});
+	fetchData = async () => {
+		let response = await fetch(
+			`https://api.hnpwa.com/v0/news/${this.state.page}.json`
+		);
+		let data = await response.json();
+		this.setState({
+			data,
+		});
 	};
 
 	onRefresh = () => {
 		this.setState({ isFetching: true }, () => this.fetchData());
 	};
 
-	timeOfCreation = timestamp => {
-		let currentTime = new Date().getTime() / 1000;
-		let timePassed = currentTime - timestamp;
-		let daysPassed = Math.floor(timePassed / 86400);
-		let hoursPassed = Math.floor(timePassed / 3600);
-		let minutesPassed = Math.floor(timePassed / 60);
-		let humanReadableTime =
-			(daysPassed && `${daysPassed} ${daysPassed == 1 ? 'day' : 'days'} ago`) ||
-			(hoursPassed &&
-				`${hoursPassed} ${hoursPassed == 1 ? 'hour' : 'hours'} ago`) ||
-			`${minutesPassed} ${minutesPassed == 1 ? 'minute' : 'minutes'} ago`;
-		return humanReadableTime;
-	};
+	// timeOfCreation = timestamp => {
+	// 	let currentTime = new Date().getTime() / 1000;
+	// 	let timePassed = currentTime - timestamp;
+	// 	let daysPassed = Math.floor(timePassed / 86400);
+	// 	let hoursPassed = Math.floor(timePassed / 3600);
+	// 	let minutesPassed = Math.floor(timePassed / 60);
+	// 	let humanReadableTime =
+	// 		(daysPassed && `${daysPassed} ${daysPassed == 1 ? 'day' : 'days'} ago`) ||
+	// 		(hoursPassed &&
+	// 			`${hoursPassed} ${hoursPassed == 1 ? 'hour' : 'hours'} ago`) ||
+	// 		`${minutesPassed} ${minutesPassed == 1 ? 'minute' : 'minutes'} ago`;
+	// 	return humanReadableTime;
+	// };
 
 	cleanUrl = url => {
 		if (url) return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
@@ -74,7 +62,6 @@ export default class Feed extends React.Component {
 				navigate={navigate}
 				isFetching={this.state.isFetching}
 				onRefresh={this.onRefresh}
-				time={this.timeOfCreation}
 				cleanUrl={this.cleanUrl}
 			/>
 		);
