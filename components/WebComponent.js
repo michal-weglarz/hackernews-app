@@ -61,8 +61,8 @@ export default class WebComponent extends React.PureComponent {
 							alignItems: 'center',
 						}}
 					>
-						<Icon name="forward" type="entypo" color="#FFAB73" />
-						<Text style={{ color: '#FFAB73' }}> Share</Text>
+						<Icon name="forward" type="entypo" color="#fff" />
+						<Text style={{ color: '#fff' }}> Share</Text>
 					</View>
 				</TouchableOpacity>
 			),

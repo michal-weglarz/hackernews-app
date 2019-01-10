@@ -46,20 +46,6 @@ export default class Feed extends React.Component {
 		});
 	};
 
-	// timeOfCreation = timestamp => {
-	// 	let currentTime = new Date().getTime() / 1000;
-	// 	let timePassed = currentTime - timestamp;
-	// 	let daysPassed = Math.floor(timePassed / 86400);
-	// 	let hoursPassed = Math.floor(timePassed / 3600);
-	// 	let minutesPassed = Math.floor(timePassed / 60);
-	// 	let humanReadableTime =
-	// 		(daysPassed && `${daysPassed} ${daysPassed == 1 ? 'day' : 'days'} ago`) ||
-	// 		(hoursPassed &&
-	// 			`${hoursPassed} ${hoursPassed == 1 ? 'hour' : 'hours'} ago`) ||
-	// 		`${minutesPassed} ${minutesPassed == 1 ? 'minute' : 'minutes'} ago`;
-	// 	return humanReadableTime;
-	// };
-
 	cleanUrl = url => {
 		if (url) return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
 	};

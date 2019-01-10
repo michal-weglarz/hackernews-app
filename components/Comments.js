@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-	View,
-	FlatList,
-	WebView,
-	Dimensions,
-	ScrollView,
-	Text,
-	ActivityIndicator,
-} from 'react-native';
+import { View, FlatList, Text, ActivityIndicator } from 'react-native';
 import HTML from 'react-native-render-html';
 
 export default class Comments extends React.Component {
@@ -92,9 +84,9 @@ const RenderComments = ({ data }) => {
 				<View
 					style={{
 						paddingLeft: 12,
-						paddingRight: 5,
 						borderLeftWidth: 1,
 						borderColor: '#E0E0DA',
+						paddingTop: 0,
 					}}
 				>
 					<View
@@ -103,19 +95,21 @@ const RenderComments = ({ data }) => {
 							flexDirection: 'row',
 							alignItems: 'flex-start',
 							backgroundColor: '#F6F6F6',
-							padding: 5,
+							padding: 8,
 						}}
 					>
-						<Text style={{ color: '#ff6600' }}>{item.user} </Text>
-						<Text style={{ color: '#A3A39F' }}>- {item.time_ago}</Text>
+						<Text style={{ color: '#ff6600' }}>{item.user || 'deleted'} </Text>
+						<Text style={{ color: '#A3A39F' }}>
+							{item.user ? `- ${item.time_ago}` : ''}
+						</Text>
 					</View>
-					<View style={{ marginTop: -4 }}>
-						<HTML html={item.content} />
+					<View>
+						<HTML html={item.user ? item.content : '<div><span/></div>'} />
 						{item.comments && <RenderComments data={item.comments} />}
 					</View>
 				</View>
 			)}
-			keyExtractor={(item, index) => item.id.toString()}
+			keyExtractor={item => item.id.toString()}
 		/>
 	);
 };

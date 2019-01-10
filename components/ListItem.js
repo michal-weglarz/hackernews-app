@@ -47,9 +47,9 @@ export default class ListItem extends React.PureComponent {
 									borderRadius: 4,
 								}}
 							>
-								{item.points}
+								{item.points || 0}
 							</Text>
-							<Text style={styles.sideText}>{item.user}</Text>
+							<Text style={styles.sideText}>{item.user || 'unknown'}</Text>
 							<Text style={styles.sideText}>{item.time_ago}</Text>
 						</View>
 						<Text style={styles.sideText} numberOfLines={1}>

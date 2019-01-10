@@ -36,7 +36,7 @@ export default class List extends React.PureComponent {
 				renderItem={({ item }) => (
 					<ListItem item={item} navigate={navigate} cleanUrl={cleanUrl} />
 				)}
-				keyExtractor={(item, index) => item.id.toString()}
+				keyExtractor={item => item.id.toString()}
 				ItemSeparatorComponent={this.renderSeparator}
 				ListFooterComponent={this.renderFooter}
 				onRefresh={() => onRefresh}
