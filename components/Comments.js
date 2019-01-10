@@ -8,7 +8,6 @@ import {
 	Text,
 	ActivityIndicator,
 } from 'react-native';
-import Comment from './Comment';
 import HTML from 'react-native-render-html';
 
 export default class Comments extends React.Component {
@@ -45,7 +44,6 @@ export default class Comments extends React.Component {
 	};
 
 	renderFooter = () => {
-		if (!this.state.isLoading) return null;
 		return (
 			<View
 				style={{
@@ -71,10 +69,16 @@ export default class Comments extends React.Component {
 	};
 
 	render() {
-		console.log(this.state.comments);
 		return (
 			<View>
-				{this.state.comments && <RenderComments data={this.state.comments} />}
+				{this.state.isLoading && this.renderFooter()}
+				{this.state.comments && (
+					<RenderComments
+						data={this.state.comments}
+						renderSeparator={this.renderSeparator}
+						renderFooter={this.renderFooter}
+					/>
+				)}
 			</View>
 		);
 	}
@@ -82,33 +86,36 @@ export default class Comments extends React.Component {
 
 const RenderComments = ({ data }) => {
 	return (
-		<View style={{ padding: 5 }}>
-			<FlatList
-				data={data}
-				renderItem={({ item }) => (
+		<FlatList
+			data={data}
+			renderItem={({ item }) => (
+				<View
+					style={{
+						paddingLeft: 12,
+						paddingRight: 5,
+						borderLeftWidth: 1,
+						borderColor: '#E0E0DA',
+					}}
+				>
 					<View
 						style={{
-							paddingLeft: 20,
-							borderLeftWidth: 1,
-							borderColor: '#E0E0DA',
+							flex: 1,
+							flexDirection: 'row',
+							alignItems: 'flex-start',
+							backgroundColor: '#F6F6F6',
+							padding: 5,
 						}}
 					>
-						<View>
-							<Text style={{ color: '#ff6600' }}>{item.user} </Text>
-							<Text style={{ color: '#E0E0DA' }}>- {item.time_ago}</Text>
-						</View>
-						<View>
-							<HTML html={item.content} />
-						</View>
+						<Text style={{ color: '#ff6600' }}>{item.user} </Text>
+						<Text style={{ color: '#A3A39F' }}>- {item.time_ago}</Text>
+					</View>
+					<View style={{ marginTop: -4 }}>
+						<HTML html={item.content} />
 						{item.comments && <RenderComments data={item.comments} />}
 					</View>
-				)}
-				keyExtractor={(item, index) => item.id.toString()}
-				ItemSeparatorComponent={this.renderSeparator}
-				onEndReached={this.reachedEnd}
-				onEndReachedThreshold={0.5}
-				ListFooterComponent={this.renderFooter}
-			/>
-		</View>
+				</View>
+			)}
+			keyExtractor={(item, index) => item.id.toString()}
+		/>
 	);
 };

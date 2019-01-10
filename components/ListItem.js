@@ -20,7 +20,11 @@ export default class ListItem extends React.PureComponent {
 				<TouchableOpacity
 					style={{ flex: 5 }}
 					onPress={() => {
-						navigate('WebView', { uri: item.url, id: item.id });
+						navigate('WebView', {
+							uri: item.url,
+							id: item.id,
+							title: item.title,
+						});
 					}}
 				>
 					<View
@@ -66,7 +70,6 @@ export default class ListItem extends React.PureComponent {
 				>
 					<Icon name="comment-o" type="font-awesome" color="#FFAB73" />
 					<Text style={{ color: '#FF8738', marginTop: 6 }}>
-						{item.id}
 						{item.comments_count}
 					</Text>
 				</TouchableOpacity>

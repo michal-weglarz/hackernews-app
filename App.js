@@ -34,9 +34,6 @@ const RootStack = createStackNavigator({
 	},
 	WebView: {
 		screen: WebView,
-		navigationOptions: {
-			headerTintColor: '#ffffff',
-		},
 	},
 	Comments: {
 		screen: Comments,

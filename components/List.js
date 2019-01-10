@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 
 import ListItem from './ListItem';
 
@@ -26,8 +26,9 @@ export default class List extends React.PureComponent {
 			navigate,
 			isFetching,
 			onRefresh,
-			time,
 			cleanUrl,
+			page,
+			fetchMore,
 		} = this.props;
 		return (
 			<FlatList
