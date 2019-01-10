@@ -90,12 +90,7 @@ export default class WebComponent extends React.PureComponent {
 	};
 
 	render() {
-		const address =
-			this.props.navigation.state.params.uri ||
-			`https://news.ycombinator.com/item?id=${
-				this.props.navigation.state.params.id
-			}`;
-		console.log(address);
+		const address = this.props.navigation.state.params.uri;
 		return (
 			<WebView
 				source={{

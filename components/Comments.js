@@ -11,6 +11,7 @@ export default class Comments extends React.Component {
 		headerTitleStyle: {
 			color: '#ffffff',
 		},
+		headerTintColor: '#ffffff',
 	};
 
 	constructor(props) {
@@ -53,12 +54,6 @@ export default class Comments extends React.Component {
 	renderSeparator = () => (
 		<View style={{ borderBottomColor: '#E0E0DA', borderBottomWidth: 1 }} />
 	);
-
-	reachedEnd = () => {
-		this.setState({
-			isLoading: false,
-		});
-	};
 
 	render() {
 		return (

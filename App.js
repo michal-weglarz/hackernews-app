@@ -17,9 +17,6 @@ const RootStack = createStackNavigator({
 	},
 	Comments: {
 		screen: Comments,
-		navigationOptions: {
-			headerTintColor: '#ffffff',
-		},
 	},
 });
 
