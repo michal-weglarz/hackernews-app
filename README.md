@@ -17,4 +17,4 @@ React Native app presenting Hacker News' latest stories.
 ## Issues to resolve/Features to add:
   * Overall performance of loading and fetching tends to be quite unpredictable  
   * Currently main feed contains only first page of latest news from Hacker News. Infinite loading, using pagination from REST API, will be added in future.
-  * Refreshing needs to be rethink. 
+  * Refreshing needs to be rethought. 
